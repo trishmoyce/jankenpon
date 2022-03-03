@@ -5,10 +5,33 @@
 <head>
 	<meta charset="utf-8">
 	<title>Jan Ken Pon!</title>
+	<script src="javascript.js" defer></script>
 </head>
 
 <body>
-	<script src="javascript.js"></script>
+	<header id="headerpick">
+		<h3>Player, please pick...</h3>
+	</header>
+	<button id="buttonp" value="Paper">Paper</button>
+	<button id="buttons" value="Scissors">Scissors</button>
+	<button id="buttonr" value="Rock">Rock</button>
+
+	<div id="playerstats">
+		<header id="headerplayer">
+			<h3>Player</h3>
+		</header>
+		<div id="playerplays">Plays: <a id="pplays"></a></div>
+		<div id="playerscore">Score: <a id="pscore">0</a></div>
+	</div>
+	<div id="computerstats">
+		<header id="headercomputer">
+			<h3>Computer</h3>
+		</header>
+		<div id="computerplays">Plays: <a id="cplays"></a></div>
+		<div id="computerscore">Score: <a id="cscore">0</a></div>
+	</div>
+	<br>
+	<div id="winnerresults"></div>
 </body>
 
 </html>

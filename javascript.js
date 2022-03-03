@@ -1,94 +1,120 @@
-    // 1. Start a new Git repo for your project. -DONE
+/* RPS VERSION TWO
 
-    // 2, Create a blank HTML document with a script tag (Hint: it is best practice to link an external .js file). This game is going to be played completely from the console, so don't worry about putting anything else in there. -DONE
+Player should be able to play the game by clicking on buttons rather than typing their answer in a prompt.
 
-    // 3. Your game is gong to play against the computer, so begin with a function called computerPlay that will randomly return either 'Rock', 'Paper' or 'Scissors'. We'll use this function in the game to make the computer's play. Tip: use the console to make sure this is returning the expected output before moving to the next step! DONE
+1. For now, remove the logic that plays exactly five rounds.
+2. Create three buttons, one for each selection. Add an event listener to the buttons that call your playRound function with the correct playerSelection every time a button is clicked. (you can keep the console.logs for this step)
+3. Add a div for displaying results and change all of your console.logs into DOM methods
+Display the running score, and announce a winner of the game once one player reaches 5 points.
 
-function computerPlay(cplay) {
-return cplay[Math.floor(Math.random()*cplay.length)];
-}
-var cplay = [ "paper", "scissors", "rock"];
-// console.log(computerPlay(cplay));
+ The game looks like this: 1) player clicks paper, scissors or rock. 2) When one is clicked, the function for the computer random selection executes, and 3) both selections are displayed, 4) the selections are compared, 5) the winner gets the points outputted on their score, 6) after five rounds a winner is displayed, 6) the button no longer clicks after the winner is declared
 
-    // 4a. Write a function that plays a single round of Rock Paper Scissors. The function should take two parameters - the playerSelection and computerSelection - and then return a string that declares the winner of the round like so: "You Lose! Paper beats Rock" DONE
+ */
 
-    // 4b. Make your function's playerSelection parameter case-insensitive (so users can input rock, ROCK, RocK or any other variation). DONE
+// declares points tally variables
 
 let playerPoints = 0;
 let computerPoints = 0;
 
-function playRound(playerSelection, computerSelection) {
-    if (playerSelection.toLowerCase() == computerSelection) {
-        return("Draw!");
-    } else if(computerSelection == "paper" && playerSelection.toLowerCase() == "scissors") {
-        ++playerPoints;
-        return ("You Win! Scissors beats Paper");
-    } else if(computerSelection == "paper" && playerSelection.toLowerCase() == "rock") {
-        ++computerPoints;
-        return ("You Lose! Paper beats Rock");
-    } else if(computerSelection == "scissors" && playerSelection.toLowerCase() == "rock") {
-        ++playerPoints;
-        return ("You Win! Rock beats Scissors");
-    } else if(computerSelection == "scissors" && playerSelection.toLowerCase() == "paper") {
-        ++computerPoints;
-        return ("You Lose! Scissors beats Paper");
-    } else if(computerSelection == "rock" && playerSelection.toLowerCase() == "paper") {
-        ++playerPoints;
-        return ("You Win! Paper beats Rock");
-    } else if(computerSelection == "rock" && playerSelection.toLowerCase() == "scissors") {
-        ++computerPoints;
-        return ("You Lose! Rock beats Scissors");
-    } else {
-        return("Error!");
-    }
+// computer randomized play
+
+function computerPlay(cplay) {
+    return cplay[Math.floor(Math.random()*cplay.length)];
+}
+var cplay = [ 'Paper', 'Scissors', 'Rock'];
+
+// function that includes a function that will randomly play paper/scissors/rock and compare it against the button the player clicked
+
+const allbuttons = document.querySelectorAll('button');
+
+const playRound = e => {
+    var playerSelection = e.target.value;
+    var computerSelection = computerPlay(cplay);
+    console.log(computerSelection);
+    if (computerSelection == 'Paper' && e.target.id === 'buttonp') {
+        document.getElementById('cplays').textContent += 'Paper ';
+        declareWinner();
+    } else if (computerSelection == 'Scissors' && e.target.id === 'buttonp') {
+        computerPoints += 1;
+        document.getElementById('cscore').textContent = computerPoints;        
+        document.getElementById('cplays').textContent += 'Scissors ';
+        declareWinner();
+    } else if (computerSelection == 'Rock' && e.target.id === 'buttonp') {
+        playerPoints += 1;
+        document.getElementById('pscore').textContent = playerPoints;        
+        document.getElementById('cplays').textContent += 'Rock ';
+        declareWinner();
+    } else if (computerSelection == 'Scissors' && e.target.id === 'buttons') {
+        document.getElementById('cplays').textContent += 'Scissors ';
+        declareWinner();
+    } else if (computerSelection == 'Rock' && e.target.id === 'buttons') {
+        computerPoints += 1;
+        document.getElementById('cscore').textContent = computerPoints;        
+        document.getElementById('cplays').textContent += 'Rock ';
+        declareWinner();
+    } else if (computerSelection == 'Paper' && e.target.id === 'buttons') {
+        playerPoints += 1;
+        document.getElementById('pscore').textContent = playerPoints;        
+        document.getElementById('cplays').textContent += 'Paper ';
+        declareWinner();
+    } else if (computerSelection == 'Rock' && e.target.id === 'buttonr') {
+        document.getElementById('cplays').textContent += 'Rock ';
+        declareWinner();
+    } else if (computerSelection == 'Paper' && e.target.id === 'buttonr') {
+        computerPoints += 1;
+        document.getElementById('cscore').textContent = computerPoints;        
+        document.getElementById('cplays').textContent += 'Paper ';
+        declareWinner();
+    } else if (computerSelection == 'Scissors' && e.target.id === 'buttonr') {
+        playerPoints += 1;
+        document.getElementById('pscore').textContent = playerPoints;        
+        document.getElementById('cplays').textContent += 'Scissors ';
+        declareWinner();
+  }
 }
 
-    // 5. Important note: you want to return the results of this function call, not console.log() them. DONE
-    
-    // 6a. Write a NEW function called game(). Use the previous function inside of this one to play a 5 round game that keeps score and reports a winner or loser at the end. (Call your playRound function 5 times in a row.) DONE
+allbuttons.forEach((button) => {
+    button.addEventListener('click', playRound);
+});
 
-function game() {
-    let playerSelection = prompt("Rock, Paper or Scissors?");
-    let computerSelection = computerPlay(cplay);
-    console.log(computerSelection);
-    playRound(playerSelection, computerSelection);
-    console.log(playRound(playerSelection, computerSelection));
-    playerSelection = prompt("Rock, Paper or Scissors?");
-    computerSelection = computerPlay(cplay);
-    console.log(computerSelection);
-    playRound(playerSelection, computerSelection);
-    console.log(playRound(playerSelection, computerSelection));
-    playerSelection = prompt("Rock, Paper or Scissors?");
-    computerSelection = computerPlay(cplay);
-    console.log(computerSelection);
-    playRound(playerSelection, computerSelection);
-    console.log(playRound(playerSelection, computerSelection));
-    playerSelection = prompt("Rock, Paper or Scissors?");
-    computerSelection = computerPlay(cplay);
-    console.log(computerSelection);
-    playRound(playerSelection, computerSelection);
-    console.log(playRound(playerSelection, computerSelection));
-    playerSelection = prompt("Rock, Paper or Scissors?");
-    computerSelection = computerPlay(cplay);
-    console.log(computerSelection);
-    playRound(playerSelection, computerSelection);
-    console.log(playRound(playerSelection, computerSelection));
+// function and listener events that displays the player's selection
+
+function paperButton() {
+    document.getElementById("pplays").textContent += "Paper ";
 }
 
-game();
-
-if (playerPoints == computerPoints) {
-    alert("Tie Game!");
-} else if (playerPoints > computerPoints) {
-    alert("Player Wins Best of Five!");
-} else if (playerPoints < computerPoints) {
-    alert("Computer Wins Best of Five!");
+function scissorsButton() {
+    document.getElementById("pplays").textContent += "Scissors ";
 }
 
-    // 6b. At this point you should be using console.log() to display the results of each round and the winner at the end. DONE
+function rockButton() {
+    document.getElementById("pplays").textContent += "Rock ";
+}
 
-    // 6c. Use prompt() to get input from the user. DONE
+buttonp.addEventListener('click', paperButton);
+buttons.addEventListener('click', scissorsButton);
+buttonr.addEventListener('click', rockButton);
 
-    // 6d. Feel free to re-work your previous functions if you need to. Speficially, you might want to change the return value to something more useful.
+// when player or computer reaches a score of five a winner is declared and buttons are grayed out
 
-    // 6e. Feel free to create more "helper" functions if you think it would be useful.
+function declareWinner() {
+if (playerPoints === 5) {
+    document.getElementById("winnerresults").textContent = "...Player Wins!"
+    winnerresults.style.color = 'green'
+    winnerresults.style.fontSize = '35px'
+    winnerresults.style.fontStyle = 'italic';
+    disableButton();
+} else if (computerPoints === 5) {
+    document.getElementById("winnerresults").textContent = "...Computer Wins!"
+    winnerresults.style.color = 'red'
+    winnerresults.style.fontSize = '35px'
+    winnerresults.style.fontStyle = 'italic';
+    disableButton();
+}
+}
+
+function disableButton() {
+    buttonp.disabled = true;
+    buttons.disabled = true;
+    buttonr.disabled = true;
+}
